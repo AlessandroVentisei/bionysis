@@ -14,7 +14,7 @@ scafell_box <- st_point(c(420000, 592000)) |>
 
 scafell_catalog <- eng_search(scafell_box)
 
-print(scafell_catalog)
+#print(scafell_catalog)
 
 
 DTM_catalog <- scafell_catalog |>
@@ -24,7 +24,7 @@ DTM_catalog <- scafell_catalog |>
     year == 2022
   )
 
-print(DTM_catalog)
+#print(DTM_catalog)
 #> Data Catalog
 #> # A tibble: 1 × 5
 #>   product             resolution  year filenames urls     
@@ -41,5 +41,5 @@ print(DTM_catalog)
 #> [1] "NY10NE" "NY20NW"
 
 scafell_raster <- merge_assets(DTM_catalog, mask = TRUE)
-
-plot(scafell_raster, col = grDevices::hcl.colors(50, palette = "Sunset"))
+print(scafell_raster)
+#plot(scafell_raster, col = grDevices::hcl.colors(50, palette = "Sunset"))

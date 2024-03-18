@@ -6,8 +6,11 @@ if (rlang::is_installed("terra")) {
   options(gblidar.out_raster_type = "SpatRaster")
 }
 #> terra 1.7.71
+args = commandArgs(trailingOnly=TRUE)
+x <- as.numeric(args[1])
+y <- as.numeric(args[2])
 
-scafell_box <- st_point(c(420000, 592000)) |>
+scafell_box <- st_point(c(x, y)) |>
   st_buffer(2000) |>
   st_sfc() |>
   st_set_crs(27700)

@@ -11,7 +11,8 @@ default_app = firebase_admin.initialize_app(cred_obj, {
 #ref = db.reference("/")
 #test_data = {"name":"Alex", "purpose": {"test_data":"here", "more_data": "here as well"}}
 #ref.set(test_data)
-res = subprocess.call("Rscript API/EALiDAR.r", shell=True)
+res = subprocess.run(["Rscript", "API/EALiDAR.r", "420000", "592000"])
+
 print(res)
 #TODO:
 # 1) setup R package for checking and downloading tiles required for coordinates.

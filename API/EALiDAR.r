@@ -1,30 +1,31 @@
 library(gblidar)
 library(sf)
+options(gblidar.progress = FALSE)
 #> Linking to GEOS 3.12.1, GDAL 3.8.3, PROJ 9.3.1; sf_use_s2() is TRUE
 if (rlang::is_installed("terra")) {
   library(terra)
   options(gblidar.out_raster_type = "SpatRaster")
 }
 #> terra 1.7.71
+args = commandArgs(trailingOnly=TRUE)
+x <- as.numeric(args[1])
+y <- as.numeric(args[2])
 
-scafell_box <- st_point(c(420000, 592000)) |>
+reqBox <- st_point(c(x, y)) |>
   st_buffer(2000) |>
   st_sfc() |>
   st_set_crs(27700)
 
-scafell_catalog <- eng_search(scafell_box)
+catalog <- eng_search(reqBox)
 
-print(scafell_catalog)
-
-
-DTM_catalog <- scafell_catalog |>
+DTM_catalog <- catalog |>
   filter_catalog(
     product == "LIDAR Composite DTM",
     resolution == 2,
     year == 2022
   )
 
-print(DTM_catalog)
+#print(DTM_catalog)
 #> Data Catalog
 #> # A tibble: 1 × 5
 #>   product             resolution  year filenames urls     
@@ -39,7 +40,7 @@ print(DTM_catalog)
 #> POLYGON ((323633 507181, 323630.3 507076.3, 323...
 #> Tile Names
 #> [1] "NY10NE" "NY20NW"
-
-scafell_raster <- merge_assets(DTM_catalog, mask = TRUE)
-
-plot(scafell_raster, col = grDevices::hcl.colors(50, palette = "Sunset"))
+raster <- merge_assets(DTM_catalog, mask = TRUE)
+rf <- writeRaster(raster, filename=file.path("./API/raster_data.tif"), datatype='INT4S', overwrite=TRUE)
+print(rf)
+#plot(scafell_raster, col = grDevices::hcl.colors(50, palette = "Sunset"))
